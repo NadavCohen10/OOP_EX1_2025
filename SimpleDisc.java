@@ -7,6 +7,7 @@ public class SimpleDisc implements Disc {
     @Override
     public void setOwner(Player player) {
 
+
     }
 
     @Override
