@@ -4,15 +4,11 @@ public class GameLogic implements PlayableLogic {
     private Disc [][] board = new Disc[8][8];
     private Player playerBlue;
     private Player playerRed ;
+    final private int BOARD_SIZE = 8;
 
     public GameLogic()
     {
-        board = new Disc[8][8];
-
-//        board[3][3] = new SimpleDisc(playerBlue) ;
-//        board[4][4] = new SimpleDisc(playerBlue) ;
-//        board[3][4] = new SimpleDisc(playerRed) ;
-//        board[4][3] = new SimpleDisc(playerRed) ;
+        board = new Disc[BOARD_SIZE][BOARD_SIZE];
     }
 
     @Override
@@ -27,7 +23,7 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public int getBoardSize() {
-        return 8;
+        return BOARD_SIZE;
     }
 
     @Override
@@ -74,7 +70,13 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public void reset() {
+      board = new Disc[BOARD_SIZE][BOARD_SIZE];
+        board[3][3] = new SimpleDisc(playerBlue) ;
+        board[4][4] = new SimpleDisc(playerBlue) ;
+        board[3][4] = new SimpleDisc(playerRed) ;
+        board[4][3] = new SimpleDisc(playerRed) ;
 
+        System.out.println("Aaa");
     }
 
     @Override
