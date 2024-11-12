@@ -2,7 +2,10 @@ public class Position {
     public int columns;
     public int rows;
 
+    public Position()
+    {
 
+    }
     public Position(int rows, int columns) {
         this.columns = columns;
         this.rows = rows;
@@ -17,12 +20,13 @@ public class Position {
     }
 
 
-    public void setColumns(int columns) {
-        this.columns = columns;
-    }
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
+//    public void setColumns(int columns) {
+//        this.columns = columns;
+//    }
+//    public void setRows(int rows) {
+//        this.rows = rows;
+//    }
+
 
 
 }

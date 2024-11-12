@@ -1,6 +1,17 @@
 import java.util.List;
 
 public class GameLogic implements PlayableLogic {
+    private Disc [][] board = new Disc[8][8];
+    private Player playerBlue;
+    private Player playerRed ;
+
+    public GameLogic()
+    {
+        board[3][3] = new SimpleDisc(playerBlue) ;
+        board[4][4] = new SimpleDisc(playerBlue) ;
+        board[3][4] = new SimpleDisc(playerRed) ;
+        board[4][3] = new SimpleDisc(playerRed) ;
+    }
 
     @Override
     public boolean locate_disc(Position a, Disc disc) {
@@ -14,12 +25,12 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public int getBoardSize() {
-        return 0;
+        return 8;
     }
 
     @Override
     public List<Position> ValidMoves() {
-        return null;
+        return List.of();
     }
 
     @Override
