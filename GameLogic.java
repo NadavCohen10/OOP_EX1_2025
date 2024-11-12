@@ -7,10 +7,12 @@ public class GameLogic implements PlayableLogic {
 
     public GameLogic()
     {
-        board[3][3] = new SimpleDisc(playerBlue) ;
-        board[4][4] = new SimpleDisc(playerBlue) ;
-        board[3][4] = new SimpleDisc(playerRed) ;
-        board[4][3] = new SimpleDisc(playerRed) ;
+        board = new Disc[8][8];
+
+//        board[3][3] = new SimpleDisc(playerBlue) ;
+//        board[4][4] = new SimpleDisc(playerBlue) ;
+//        board[3][4] = new SimpleDisc(playerRed) ;
+//        board[4][3] = new SimpleDisc(playerRed) ;
     }
 
     @Override
@@ -20,7 +22,7 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public Disc getDiscAtPosition(Position position) {
-        return null;
+        return board[position.row()][position.col()];
     }
 
     @Override
@@ -40,22 +42,29 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public Player getFirstPlayer() {
-        return null;
+        return playerBlue;
     }
 
     @Override
     public Player getSecondPlayer() {
-        return null;
+        return playerRed;
     }
 
     @Override
     public void setPlayers(Player player1, Player player2) {
+        playerBlue = player1;
+        playerRed = player2;
+        board[3][3] = new SimpleDisc(playerBlue) ;
+        board[4][4] = new SimpleDisc(playerBlue) ;
+        board[3][4] = new SimpleDisc(playerRed) ;
+        board[4][3] = new SimpleDisc(playerRed) ;
+        System.out.println("aaaaaa");
 
     }
 
     @Override
     public boolean isFirstPlayerTurn() {
-        return false;
+        return true;
     }
 
     @Override
