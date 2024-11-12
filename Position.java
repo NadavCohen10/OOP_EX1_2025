@@ -1,6 +1,6 @@
 public class Position {
-    private int columns;
-    private int rows;
+    public int columns;
+    public int rows;
 
 
     public Position(int rows, int columns) {
@@ -8,11 +8,11 @@ public class Position {
         this.rows = rows;
     }
 
-    public int getRow() {
+    public int row() {
         return rows;
     }
 
-    public int getColumns() {
+    public int col() {
         return columns;
     }
 

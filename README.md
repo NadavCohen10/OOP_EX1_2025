@@ -30,7 +30,7 @@ Implement `Disc` interface for different disc types:
 - **BombDisc** - When flipped, it causes surrounding discs to flip, potentially triggering other bombs.
 
 ### 3. Helper Classes
-- **Position** - Represents a position on the board.
+- **Position** - Represents a Position on the board.
 - **Move** - Represents a game move and supports undo functionality.
 
 ### 4. AI Players

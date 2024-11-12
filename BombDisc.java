@@ -1,4 +1,10 @@
 public class BombDisc implements Disc{
+
+
+    public BombDisc(Player currentPlayer) {
+
+    }
+
     @Override
     public Player getOwner() {
         return null;
@@ -10,7 +16,8 @@ public class BombDisc implements Disc{
     }
 
     @Override
-    public String getType() {
-        return null;
+    public String getType()
+    {
+        return "💣";
     }
 }

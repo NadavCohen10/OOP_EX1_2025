@@ -1,4 +1,7 @@
 public class UnflippableDisc implements Disc{
+    public UnflippableDisc(Player currentPlayer) {
+    }
+
     @Override
     public Player getOwner() {
         return null;
@@ -10,7 +13,8 @@ public class UnflippableDisc implements Disc{
     }
 
     @Override
-    public String getType() {
-        return null;
+    public String getType()
+    {
+        return "⭕" ;
     }
 }
