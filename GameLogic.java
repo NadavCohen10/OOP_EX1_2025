@@ -16,11 +16,11 @@ public class GameLogic implements PlayableLogic {
     @Override
     public boolean locate_disc(Position a, Disc disc)
     {
-        if (board[a.row()][a.col()]==null) {
-            board[a.row()][a.col()] = disc;
-            return true;
-        }
-        return false;
+        if (board[a.row()][a.col()]!=null)
+            return false;
+
+        board[a.row()][a.col()] = disc;
+        return true;
     }
 
     @Override
