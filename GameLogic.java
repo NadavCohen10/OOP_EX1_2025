@@ -7,7 +7,7 @@ public class GameLogic implements PlayableLogic {
 
     final private int BOARD_SIZE = 8;
     // if whoIsPlaying = 1 then playerBlue else then playerRed
-    private boolean whoIsPlaying = true;
+    private boolean lastPlayer = true;
 
     public GameLogic()
     {
@@ -33,13 +33,16 @@ public class GameLogic implements PlayableLogic {
                 return false;
             }
         }
+        countFlips(a);
+        lastPlayer = !lastPlayer;
+
         return true;
     }
 
     @Override
     public Disc getDiscAtPosition(Position position)
     {
-        System.out.println(position.row() +" "+ position.col());
+     //   System.out.println(position.row() +" "+ position.col());
 
         return board[position.row()][position.col()];
 
@@ -61,8 +64,71 @@ public class GameLogic implements PlayableLogic {
     @Override
     public int countFlips(Position a)
     {
-        return 0;
+        int count = 0;
+        for(int i = 1; i<8;i++)
+        {
+       count = count + flip(i,a.row(),a.col());
+
+        }
+        System.out.println(count);
+        return count;
     }
+
+    //לבדוק לגבי מהלכים שלא סוגרים מעגל
+private int flip(int direction, int row, int col) {
+    switch (direction) {
+        //up
+        case 1: {
+            if (row - 1 > 0 && board[row - 1][col] != null && board[row - 1][col].getOwner().isPlayerOne != lastPlayer)
+                return 1 + flip(direction, row - 1, col);
+            break;
+        }
+        // up-right
+        case 2: {
+            if (row - 1 > 0 && col + 1 < BOARD_SIZE && board[row - 1][col + 1] != null && board[row - 1][col + 1].getOwner().isPlayerOne != lastPlayer)
+                return 1 + flip(direction, row - 1, col + 1);
+            break;
+        }
+        //right
+        case 3: {
+            if (col + 1 < BOARD_SIZE && board[row][col + 1] != null && board[row][col + 1].getOwner().isPlayerOne != lastPlayer)
+                return 1 + flip(direction, row, col + 1);
+            break;
+        }
+        //down-right
+        case 4: {
+            if (row + 1 < BOARD_SIZE && col + 1 < BOARD_SIZE && board[row + 1][col + 1] != null && board[row + 1][col + 1].getOwner().isPlayerOne != lastPlayer)
+                return 1 + flip(direction, row + 1, col + 1);
+            break;
+        }
+        //down
+        case 5: {
+            if (row + 1 < BOARD_SIZE && board[row + 1][col] != null && board[row + 1][col].getOwner().isPlayerOne != lastPlayer)
+                return 1 + flip(direction, row + 1, col);
+            break;
+        }
+        //down-left
+        case 6: {
+            if (row + 1 < BOARD_SIZE && col - 1 > 0 && board[row + 1][col - 1] != null && board[row + 1][col - 1].getOwner().isPlayerOne != lastPlayer)
+                return 1 + flip(direction, row + 1, col - 1);
+            break;
+        }
+        //left
+        case 7: {
+            if (col - 1 > 0 && board[row][col - 1] != null && board[row][col - 1].getOwner().isPlayerOne != lastPlayer)
+                return 1 + flip(direction, row, col - 1);
+            break;
+        }
+        //up-left
+        case 8: {
+            if (row - 1 > 0 && col - 1 > 0 && board[row - 1][col - 1] != null && board[row - 1][col - 1].getOwner().isPlayerOne != lastPlayer)
+                return 1 + flip(direction, row - 1, col - 1);
+            break;
+        }
+
+    }
+    return 0;
+}
 
     @Override
     public Player getFirstPlayer()
@@ -92,10 +158,7 @@ public class GameLogic implements PlayableLogic {
     @Override
     public boolean isFirstPlayerTurn()
     {
-        System.out.println("change turn");
-        whoIsPlaying = !whoIsPlaying;
-        return whoIsPlaying;
-        //return true;
+        return lastPlayer;
     }
 
     @Override
@@ -112,6 +175,7 @@ public class GameLogic implements PlayableLogic {
         board[4][4] = new SimpleDisc(playerBlue) ;
         board[3][4] = new SimpleDisc(playerRed) ;
         board[4][3] = new SimpleDisc(playerRed);
+        lastPlayer = true;
         System.out.println("reset");
     }
 
