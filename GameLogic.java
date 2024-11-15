@@ -3,7 +3,8 @@ import java.util.List;
 public class GameLogic implements PlayableLogic {
     private Disc [][] board = new Disc[8][8];
     private Player playerBlue;
-    private Player playerRed ;
+    private Player playerRed;
+
     final private int BOARD_SIZE = 8;
     // if whoIsPlaying = 1 then playerBlue else then playerRed
     private boolean whoIsPlaying = true;
@@ -18,8 +19,20 @@ public class GameLogic implements PlayableLogic {
     {
         if (board[a.row()][a.col()]!=null)
             return false;
-
-        board[a.row()][a.col()] = disc;
+        switch (disc) {
+            case UnflippableDisc unflippableDisc when disc.getOwner().getNumber_of_unflippedable() > 0 -> {
+                disc.getOwner().reduce_unflippedable();
+                board[a.row()][a.col()] = disc;
+            }
+            case BombDisc bombDisc when disc.getOwner().getNumber_of_bombs() > 0 -> {
+                disc.getOwner().reduce_bomb();
+                board[a.row()][a.col()] = disc;
+            }
+            case SimpleDisc simpleDisc -> board[a.row()][a.col()] = disc;
+            case null, default -> {
+                return false;
+            }
+        }
         return true;
     }
 

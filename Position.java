@@ -22,13 +22,4 @@ public class Position {
     }
 
 
-//    public void setColumns(int columns) {
-//        this.columns = columns;
-//    }
-//    public void setRows(int rows) {
-//        this.rows = rows;
-//    }
-
-
-
 }
