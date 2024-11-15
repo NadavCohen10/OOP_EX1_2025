@@ -1,7 +1,7 @@
 public class SimpleDisc implements Disc {
     private Player currentPlayer;
     public SimpleDisc(Player currentPlayer) {
-        this.currentPlayer= currentPlayer;
+        this.currentPlayer = currentPlayer;
     }
 
     @Override
