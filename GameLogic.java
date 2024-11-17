@@ -87,6 +87,8 @@ public class GameLogic implements PlayableLogic {
         int count = 0;
         for(int i = 1; i<9;i++)
         {
+            if(a.row()== 2 &&a.col()==4)
+                System.out.println("aaa");
        count = count + flip(i,a.row(),a.col(),0);
 
         }
@@ -95,143 +97,227 @@ public class GameLogic implements PlayableLogic {
     }
 
     //לבדוק לגבי מהלכים שלא סוגרים מעגל
-private int flip(int direction, int row, int col,int count) {
+private  int flip(int direction, int row, int col,int count)
+{
     switch (direction) {
-        //up
-        case 1: {
-            if (row - 1 > 0) {
-                if (board[row - 1][col] != null) {
-                    if (board[row - 1][col].getOwner().isPlayerOne != lastPlayer)
-                        return  flip(direction, row - 1, col, ++count);
-                }
-                else return 0;// Integer.MIN_VALUE;
+        case 1:
+        if (row - 1 > -0) {
+            if (board[row - 1][col] == null)
+                return 0;
+            else if (board[row - 1][col].getOwner().isPlayerOne != lastPlayer)
+                return flip(direction, row - 1, col, count + 1);
+            else return count;
+        }
+        break;
+
+        case 2:
+            if (row - 1 >= 0 && col + 1 < BOARD_SIZE) {
+                if (board[row - 1][col + 1] == null)
+                    return 0;
+                else if (board[row - 1][col + 1].getOwner().isPlayerOne != lastPlayer)
+                    return flip(direction, row - 1, col + 1, count + 1);
+                else return count;
             }
             break;
-        }
-        // up-right
-        case 2: {
-            if (row - 1 > 0 && col + 1 < BOARD_SIZE) {
-                if (board[row - 1][col + 1] != null) {
-                    if (board[row - 1][col + 1].getOwner().isPlayerOne != lastPlayer)
-                        return  flip(direction, row - 1, col + 1, ++count);
-                } else return 0;// Integer.MIN_VALUE;
-            }
-            break;
-        }
-        //right
-        case 3: {
+        case 3:
             if (col + 1 < BOARD_SIZE) {
-                if (board[row][col + 1] != null) {
-                    if (board[row][col + 1].getOwner().isPlayerOne != lastPlayer)
-                        return  flip(direction, row, col + 1,++count);
-                } else return 0;// Integer.MIN_VALUE;
+                if (board[row][col + 1] == null)
+                    return 0;
+                else if (board[row][col + 1].getOwner().isPlayerOne != lastPlayer)
+                    return flip(direction, row, col + 1, count + 1);
+                else return count;
             }
             break;
-        }
-        //down-right
-        case 4: {
+        case 4:
             if (row + 1 < BOARD_SIZE && col + 1 < BOARD_SIZE) {
-                if (board[row + 1][col + 1] != null) {
-                    if (board[row + 1][col + 1].getOwner().isPlayerOne != lastPlayer)
-                        return  flip(direction, row + 1, col + 1,++count);
-                } else return 0;// Integer.MIN_VALUE;
+                if (board[row + 1][col + 1] == null)
+                    return 0;
+                else if (board[row + 1][col + 1].getOwner().isPlayerOne != lastPlayer)
+                    return flip(direction, row + 1, col + 1, count + 1);
+                else return count;
             }
             break;
-        }
-        //down
-        case 5: {
+        case 5:
             if (row + 1 < BOARD_SIZE) {
-                if (board[row + 1][col] != null) {
-                    if (board[row + 1][col].getOwner().isPlayerOne != lastPlayer)
-                        return  flip(direction, row + 1, col,++count);
-                } else return 0;// Integer.MIN_VALUE;
+                if (board[row + 1][col] == null)
+                    return 0;
+                else if (board[row + 1][col].getOwner().isPlayerOne != lastPlayer)
+                    return flip(direction, row + 1, col, count + 1);
+                else return count;
             }
             break;
-        }
-        //down-left
-        case 6: {
-            if (row + 1 < BOARD_SIZE && col - 1 > 0) {
-                if (board[row + 1][col - 1] != null) {
-                    if (board[row + 1][col - 1].getOwner().isPlayerOne != lastPlayer)
-                        return  flip(direction, row + 1, col - 1,++count);
-                } else return 0;// Integer.MIN_VALUE;
+        case 6:
+            if (row + 1 < BOARD_SIZE && col - 1 >= 0) {
+                if (board[row + 1][col - 1] == null)
+                    return 0;
+                else if (board[row + 1][col - 1].getOwner().isPlayerOne != lastPlayer)
+                    return flip(direction, row + 1, col - 1, count + 1);
+                else return count;
             }
             break;
-        }
-        //left
-        case 7: {
-            if (col - 1 > 0) {
-                if(board[row][col - 1] != null) {
-                    if (board[row][col - 1].getOwner().isPlayerOne != lastPlayer)
-                        return  flip(direction, row, col - 1,++count);
-                } else return 0;// Integer.MIN_VALUE;
+        case 7:
+            if (col - 1 >= 0) {
+                if (board[row][col - 1] == null)
+                    return 0;
+                else if (board[row][col - 1].getOwner().isPlayerOne != lastPlayer)
+                    return flip(direction, row, col - 1, count + 1);
+                else return count;
             }
             break;
-        }
-        //up-left
-        case 8: {
-            if (row - 1 > 0 && col - 1 > 0) {
-                if (board[row - 1][col - 1] != null) {
-                    if (board[row - 1][col - 1].getOwner().isPlayerOne != lastPlayer)
-                        return  flip(direction, row - 1, col - 1,++count);
-                } else return 0;// Integer.MIN_VALUE;
+        case 8:
+            if (row - 1 >= 0 && col - 1 > 0) {
+                if (board[row - 1][col - 1] == null)
+                    return 0;
+                else if (board[row - 1][col - 1].getOwner().isPlayerOne != lastPlayer)
+                    return flip(direction, row - 1, col - 1, count + 1);
+                else return count;
             }
             break;
-        }
-
     }
-
-
-
-
-
-//
-//    // up-right
-//    case 2: {
-//        if (row - 1 > 0 && col + 1 < BOARD_SIZE && board[row - 1][col + 1] != null && board[row - 1][col + 1].getOwner().isPlayerOne != lastPlayer)
-//            return 1 + flip(direction, row - 1, col + 1);
-//        break;
-//    }
-//    //right
-//    case 3: {
-//        if (col + 1 < BOARD_SIZE && board[row][col + 1] != null && board[row][col + 1].getOwner().isPlayerOne != lastPlayer)
-//            return 1 + flip(direction, row, col + 1);
-//        break;
-//    }
-//    //down-right
-//    case 4: {
-//        if (row + 1 < BOARD_SIZE && col + 1 < BOARD_SIZE && board[row + 1][col + 1] != null && board[row + 1][col + 1].getOwner().isPlayerOne != lastPlayer)
-//            return 1 + flip(direction, row + 1, col + 1);
-//        break;
-//    }
-//    //down
-//    case 5: {
-//        if (row + 1 < BOARD_SIZE && board[row + 1][col] != null && board[row + 1][col].getOwner().isPlayerOne != lastPlayer)
-//            return 1 + flip(direction, row + 1, col);
-//        break;
-//    }
-//    //down-left
-//    case 6: {
-//        if (row + 1 < BOARD_SIZE && col - 1 > 0 && board[row + 1][col - 1] != null && board[row + 1][col - 1].getOwner().isPlayerOne != lastPlayer)
-//            return 1 + flip(direction, row + 1, col - 1);
-//        break;
-//    }
-//    //left
-//    case 7: {
-//        if (col - 1 > 0 && board[row][col - 1] != null && board[row][col - 1].getOwner().isPlayerOne != lastPlayer)
-//            return 1 + flip(direction, row, col - 1);
-//        break;
-//    }
-//    //up-left
-//    case 8: {
-//        if (row - 1 > 0 && col - 1 > 0 && board[row - 1][col - 1] != null && board[row - 1][col - 1].getOwner().isPlayerOne != lastPlayer)
-//            return 1 + flip(direction, row - 1, col - 1);
-//        break;
-//    }
-//
-//}
-    return count;
+ return 0;
 }
+
+
+//
+//
+//    private int flip1(int direction, int row, int col,int count) {
+//    switch (direction) {
+//        //up
+//        case 1: {
+//            if (row - 1 >= 0) {
+//                if (board[row - 1][col] != null) {
+//                    if (board[row - 1][col].getOwner().isPlayerOne != lastPlayer)
+//                        return  flip(direction, row - 1, col, count+1);
+//                }
+//                else return -count;// Integer.MIN_VALUE;
+//            }
+//            break;
+//        }
+//        // up-right
+//        case 2: {
+//            if (row - 1 >= 0 && col + 1 < BOARD_SIZE) {
+//                if (board[row - 1][col + 1] != null) {
+//                    if (board[row - 1][col + 1].getOwner().isPlayerOne != lastPlayer)
+//                        return  flip(direction, row - 1, col + 1, count+1);
+//                } else return -count;// Integer.MIN_VALUE;
+//            }
+//            break;
+//        }
+//        //right
+//        case 3: {
+//            if (col + 1 < BOARD_SIZE) {
+//                if (board[row][col + 1] != null) {
+//                    if (board[row][col + 1].getOwner().isPlayerOne != lastPlayer)
+//                        return  flip(direction, row, col + 1,count+1);
+//                } else return -count;// Integer.MIN_VALUE;
+//            }
+//            break;
+//        }
+//        //down-right
+//        case 4: {
+//            if (row + 1 < BOARD_SIZE && col + 1 < BOARD_SIZE) {
+//                if (board[row + 1][col + 1] != null) {
+//                    if (board[row + 1][col + 1].getOwner().isPlayerOne != lastPlayer)
+//                        return  flip(direction, row + 1, col + 1,count+1);
+//                } else return -count;// Integer.MIN_VALUE;
+//            }
+//            break;
+//        }
+//        //down
+//        case 5: {
+//            if (row + 1 < BOARD_SIZE) {
+//                if (board[row + 1][col] != null) {
+//                    if (board[row + 1][col].getOwner().isPlayerOne != lastPlayer)
+//                        return  flip(direction, row + 1, col,count+1);
+//                } else return -count;// Integer.MIN_VALUE;
+//            }
+//            break;
+//        }
+//        //down-left
+//        case 6: {
+//            if (row + 1 < BOARD_SIZE && col - 1 >= 0) {
+//                if (board[row + 1][col - 1] != null) {
+//                    if (board[row + 1][col - 1].getOwner().isPlayerOne != lastPlayer)
+//                        return  flip(direction, row + 1, col - 1,count+1);
+//                } else return -count;// Integer.MIN_VALUE;
+//            }
+//            break;
+//        }
+//        //left
+//        case 7: {
+//            if (col - 1 >= 0) {
+//                if(board[row][col - 1] != null) {
+//                    if (board[row][col - 1].getOwner().isPlayerOne != lastPlayer)
+//                        return  flip(direction, row, col - 1,count+1);
+//                } else return -count;// Integer.MIN_VALUE;
+//            }
+//            break;
+//        }
+//        //up-left
+//        case 8: {
+//            if (row - 1 >= 0 && col - 1 > 0) {
+//                if (board[row - 1][col - 1] != null) {
+//                    if (board[row - 1][col - 1].getOwner().isPlayerOne != lastPlayer)
+//                        return  flip(direction, row - 1, col - 1,count+1);
+//                } else return -count;// Integer.MIN_VALUE;
+//            }
+//            break;
+//        }
+//
+//    }
+//
+//
+//
+//
+//
+////
+////    // up-right
+////    case 2: {
+////        if (row - 1 > 0 && col + 1 < BOARD_SIZE && board[row - 1][col + 1] != null && board[row - 1][col + 1].getOwner().isPlayerOne != lastPlayer)
+////            return 1 + flip(direction, row - 1, col + 1);
+////        break;
+////    }
+////    //right
+////    case 3: {
+////        if (col + 1 < BOARD_SIZE && board[row][col + 1] != null && board[row][col + 1].getOwner().isPlayerOne != lastPlayer)
+////            return 1 + flip(direction, row, col + 1);
+////        break;
+////    }
+////    //down-right
+////    case 4: {
+////        if (row + 1 < BOARD_SIZE && col + 1 < BOARD_SIZE && board[row + 1][col + 1] != null && board[row + 1][col + 1].getOwner().isPlayerOne != lastPlayer)
+////            return 1 + flip(direction, row + 1, col + 1);
+////        break;
+////    }
+////    //down
+////    case 5: {
+////        if (row + 1 < BOARD_SIZE && board[row + 1][col] != null && board[row + 1][col].getOwner().isPlayerOne != lastPlayer)
+////            return 1 + flip(direction, row + 1, col);
+////        break;
+////    }
+////    //down-left
+////    case 6: {
+////        if (row + 1 < BOARD_SIZE && col - 1 > 0 && board[row + 1][col - 1] != null && board[row + 1][col - 1].getOwner().isPlayerOne != lastPlayer)
+////            return 1 + flip(direction, row + 1, col - 1);
+////        break;
+////    }
+////    //left
+////    case 7: {
+////        if (col - 1 > 0 && board[row][col - 1] != null && board[row][col - 1].getOwner().isPlayerOne != lastPlayer)
+////            return 1 + flip(direction, row, col - 1);
+////        break;
+////    }
+////    //up-left
+////    case 8: {
+////        if (row - 1 > 0 && col - 1 > 0 && board[row - 1][col - 1] != null && board[row - 1][col - 1].getOwner().isPlayerOne != lastPlayer)
+////            return 1 + flip(direction, row - 1, col - 1);
+////        break;
+////    }
+////
+////}
+//
+//    return count;
+//}
 
     @Override
     public Player getFirstPlayer()
