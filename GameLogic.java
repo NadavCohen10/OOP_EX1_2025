@@ -13,8 +13,9 @@ public class GameLogic implements PlayableLogic {
     // if lastPlayer = 1 then playerBlue else then playerRed
     private boolean lastPlayer = true;
     private boolean flipper = false ;
-    //private  List<Position> tempFlips = new ArrayList<>();
-    private  List<Position> positionToFlip = new ArrayList<>();
+
+    private  Stack<Position> undoMoves = new Stack<>();
+    private  Stack<Integer> undoSteps = new Stack<>();
 
     public GameLogic()
     {
@@ -42,7 +43,8 @@ public class GameLogic implements PlayableLogic {
                 }
             }
             flipper = !flipper;
-            countFlips(a);
+            undoSteps.add(countFlips(a));
+            undoMoves.add(a);
             flipper = !flipper;
             lastPlayer = !lastPlayer;
             return true;
@@ -84,11 +86,14 @@ public class GameLogic implements PlayableLogic {
             if(flipper) {
                 while (!tempFlips.empty()) {
                     board[tempFlips.peek().row()][tempFlips.peek().col()].setOwner(currentPlayer);
-                    tempFlips.pop();
+                    undoMoves.add(tempFlips.pop());
                 }
+
             }
             tempFlips.clear();
         }
+        if(flipper)
+            System.out.println("there whas " + count +" flips");
         return count;
     }
 
@@ -181,8 +186,24 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public void undoLastMove() {
+        if(playerBlue.isHuman()&&playerRed.isHuman()) {
+            if (!undoMoves.empty() && !undoSteps.empty()) {
+                for (int i = 0; i <= undoSteps.peek(); i++) {
+                    if (i == 0) {
+                        board[undoMoves.peek().row()][undoMoves.peek().col()] = null;
+                        undoMoves.pop();
+                    } else {
+                        board[undoMoves.peek().row()][undoMoves.peek().col()].setOwner(currentPlayer);
+                        undoMoves.pop();
+                    }
+                }
+                lastPlayer = !lastPlayer;
+                undoSteps.pop();
+            }
+            else System.out.println("Undoing last move:\n" + "\tNo previous move available to undo.");
+        }
+
 
     }
 }
-
 
