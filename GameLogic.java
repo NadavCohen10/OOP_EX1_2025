@@ -3,20 +3,16 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class GameLogic implements PlayableLogic {
-    private Disc [][] board = new Disc[8][8];
+    final private int BOARD_SIZE = 8;
+    private Disc [][] board = new Disc[BOARD_SIZE][BOARD_SIZE];
     private Player playerBlue;
     private Player playerRed;
     private Player currentPlayer;
-
-    final int[][] DIR = {{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1}};
-    final private int BOARD_SIZE = 8;
-    // if lastPlayer = 1 then playerBlue else then playerRed
+    private final int[][] DIR = {{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1}};
     private boolean lastPlayer = true;
     private boolean flipper = false ;
-
     private  Stack<Position> undoMoves = new Stack<>();
     private  Stack<Integer> undoSteps = new Stack<>();
-
     public GameLogic()
     {
         board = new Disc[BOARD_SIZE][BOARD_SIZE];
@@ -175,6 +171,8 @@ public class GameLogic implements PlayableLogic {
         board = new Disc[BOARD_SIZE][BOARD_SIZE];
         playerBlue.reset_bombs_and_unflippedable();
         playerRed.reset_bombs_and_unflippedable();
+        undoMoves.clear();
+        undoSteps.clear();
         board[3][3] = new SimpleDisc(playerBlue) ;
         board[4][4] = new SimpleDisc(playerBlue) ;
         board[3][4] = new SimpleDisc(playerRed) ;
