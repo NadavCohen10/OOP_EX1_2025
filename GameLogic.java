@@ -221,13 +221,15 @@ public class GameLogic implements PlayableLogic {
         if(playerBlue.isHuman()&&playerRed.isHuman()) {
             if (!undoMoves.empty() && !undoSteps.empty()) {
                 for (int i = 0; i <= undoSteps.peek(); i++) {
-                    if (i == 0) {
+                    if(board[undoMoves.peek().row()][undoMoves.peek().col()] instanceof UnflippableDisc)
+                        board[undoMoves.peek().row()][undoMoves.peek().col()].getOwner().increase_unflippedable();
+                    else if (board[undoMoves.peek().row()][undoMoves.peek().col()] instanceof BombDisc)
+                        board[undoMoves.peek().row()][undoMoves.peek().col()].getOwner().increase_bomb();
+                    if (i == 0)
                         board[undoMoves.peek().row()][undoMoves.peek().col()] = null;
-                        undoMoves.pop();
-                    } else {
+                    else
                         board[undoMoves.peek().row()][undoMoves.peek().col()].setOwner(currentPlayer);
-                        undoMoves.pop();
-                    }
+                    undoMoves.pop();
                 }
                 lastPlayer = !lastPlayer;
                 undoSteps.pop();
@@ -236,5 +238,3 @@ public class GameLogic implements PlayableLogic {
         }
     }
 }
-
-//

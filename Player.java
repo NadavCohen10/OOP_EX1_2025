@@ -56,6 +56,15 @@ public abstract class Player {
     public void reduce_unflippedable() {
         number_of_unflippedable--;
     }
+
+    protected void increase_bomb() {
+        if(number_of_bombs<initial_number_of_bombs)
+            number_of_bombs++;
+    }
+    protected void increase_unflippedable() {
+        if(number_of_unflippedable<initial_number_of_unflippedable)
+            number_of_unflippedable++;
+    }
     public void reset_bombs_and_unflippedable() {
         this.number_of_bombs = initial_number_of_bombs;
         this.number_of_unflippedable = initial_number_of_unflippedable;
