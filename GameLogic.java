@@ -44,8 +44,18 @@ public class GameLogic implements PlayableLogic {
             System.out.println("Player placed a " + board[a.row()][a.col()].getType() + " in (" + a.row() + ", " + a.col() + ")");
            for(int i = 0; i < undoSteps.peek();i++)
            {
-               System.out.println("Player flipped the " + board[undoMoves.get(i).row()][undoMoves.get(i).col()].getType()
-                       + " in (" + undoMoves.get(undoMoves.size()-i-2).row() + ", " + undoMoves.get(i).col() + ")");
+             //  if(i ==0)
+                 //  System.out.println("Player placed a " + board[undoMoves.get(i).row()][undoMoves.get(i).col()].getType()
+                     //      + " in (" + undoMoves.get(undoMoves.size()-i-1).row() + ", " + undoMoves.get(i).col() + ")");
+
+               System.out.println("Player flipped the " +
+                       board[undoMoves.get(undoMoves.size()-i-2).row()][undoMoves.get(undoMoves.size()-i-2).col()].getType() +
+                       " in (" + undoMoves.get(undoMoves.size()-i-2).row() +
+                       ", " + undoMoves.get(undoMoves.size()-i-2).col() + ")");
+
+
+               //System.out.println("Player flipped the " + board[undoMoves.get(i).row()][undoMoves.get(i).col()].getType()
+              //         + " in (" + undoMoves.get(undoMoves.size()-i-1).row() + ", " + undoMoves.get(i).col() + ")");
            }
             System.out.println();
 
