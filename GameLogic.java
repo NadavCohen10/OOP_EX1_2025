@@ -98,7 +98,10 @@ public class GameLogic implements PlayableLogic {
     {
         int amount = 0;
         if(0 <= (row + DIR[direction][0]) && (row + DIR[direction][0]) < 8 && 0 <= (col + DIR[direction][1]) && (col + DIR[direction][1]) < 8) {
-            if (board[row + DIR[direction][0]][col + DIR[direction][1]] != null && board[row + DIR[direction][0]][col + DIR[direction][1]].getOwner().isPlayerOne != lastPlayer && !board[row + DIR[direction][0]][col + DIR[direction][1]].getType().equals("⭕")) {
+            if (board[row + DIR[direction][0]][col + DIR[direction][1]] != null &&
+                    board[row + DIR[direction][0]][col + DIR[direction][1]].getOwner().isPlayerOne != lastPlayer &&
+                    !board[row + DIR[direction][0]][col + DIR[direction][1]].getType().equals("⭕"))
+            {
                 temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));
                 amount = flip(direction, row + DIR[direction][0], col + DIR[direction][1], count + 1,temp);
             }
