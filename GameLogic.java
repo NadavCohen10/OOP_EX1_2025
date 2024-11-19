@@ -114,10 +114,10 @@ public class GameLogic implements PlayableLogic {
         }
         //temp.clear();
                 else
-        {
-            temp.clear();
-            return 0;
-        }
+                {
+                    temp.clear();
+                    return 0;
+                }
         if (board[row + DIR[direction][0]][col + DIR[direction][1]] == null) {
             if(!temp.empty()) {
                 if (board[row][col].getOwner().isPlayerOne == lastPlayer)
