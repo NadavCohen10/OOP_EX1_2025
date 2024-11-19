@@ -41,6 +41,14 @@ public class GameLogic implements PlayableLogic {
             flipper = !flipper;
             undoSteps.add(countFlips(a));
             undoMoves.add(a);
+            System.out.println("Player placed a " + board[a.row()][a.col()].getType() + " in (" + a.row() + ", " + a.col() + ")");
+           for(int i = 0; i < undoSteps.peek();i++)
+           {
+               System.out.println("Player flipped the " + board[undoMoves.get(i).row()][undoMoves.get(i).col()].getType()
+                       + " in (" + undoMoves.get(undoMoves.size()-i-2).row() + ", " + undoMoves.get(i).col() + ")");
+           }
+            System.out.println();
+
             flipper = !flipper;
             lastPlayer = !lastPlayer;
             return true;
@@ -87,8 +95,6 @@ public class GameLogic implements PlayableLogic {
             }
             tempFlips.clear();
         }
-        if(flipper)
-            System.out.println("there were " + count +" flips");
         return count;
     }
 
@@ -106,8 +112,12 @@ public class GameLogic implements PlayableLogic {
                 amount = flip(direction, row + DIR[direction][0], col + DIR[direction][1], count + 1,temp);
             }
         }
-        else return 0;
-
+        //temp.clear();
+                else
+        {
+            temp.clear();
+            return 0;
+        }
         if (board[row + DIR[direction][0]][col + DIR[direction][1]] == null) {
             if(!temp.empty()) {
                 if (board[row][col].getOwner().isPlayerOne == lastPlayer)
@@ -146,14 +156,10 @@ public class GameLogic implements PlayableLogic {
     {
         playerBlue = player1;
         playerRed = player2;
-
         board[3][3] = new SimpleDisc(playerBlue);
         board[4][4] = new SimpleDisc(playerBlue);
         board[3][4] = new SimpleDisc(playerRed);
         board[4][3] = new SimpleDisc(playerRed);
-        System.out.println("set players");
-
-
     }
 
     @Override
@@ -212,8 +218,6 @@ public class GameLogic implements PlayableLogic {
         board[3][4] = new SimpleDisc(playerRed) ;
         board[4][3] = new SimpleDisc(playerRed);
         lastPlayer = true;
-        System.out.println("reset");
-
     }
 
     @Override
