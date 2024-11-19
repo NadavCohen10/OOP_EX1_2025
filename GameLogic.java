@@ -112,12 +112,11 @@ public class GameLogic implements PlayableLogic {
                 amount = flip(direction, row + DIR[direction][0], col + DIR[direction][1], count + 1,temp);
             }
         }
-        //temp.clear();
-                else
-                {
-                    temp.clear();
-                    return 0;
-                }
+        else
+        {
+            temp.clear();
+            return 0;
+        }
         if (board[row + DIR[direction][0]][col + DIR[direction][1]] == null) {
             if(!temp.empty()) {
                 if (board[row][col].getOwner().isPlayerOne == lastPlayer)
