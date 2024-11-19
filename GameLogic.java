@@ -84,12 +84,11 @@ public class GameLogic implements PlayableLogic {
                     board[tempFlips.peek().row()][tempFlips.peek().col()].setOwner(currentPlayer);
                     undoMoves.add(tempFlips.pop());
                 }
-
             }
             tempFlips.clear();
         }
         if(flipper)
-            System.out.println("there whas " + count +" flips");
+            System.out.println("there were " + count +" flips");
         return count;
     }
 
@@ -100,7 +99,7 @@ public class GameLogic implements PlayableLogic {
         int amount = 0;
         if(0 <= (row + DIR[direction][0]) && (row + DIR[direction][0]) < 8 && 0 <= (col + DIR[direction][1]) && (col + DIR[direction][1]) < 8) {
             if (board[row + DIR[direction][0]][col + DIR[direction][1]] != null && board[row + DIR[direction][0]][col + DIR[direction][1]].getOwner().isPlayerOne != lastPlayer && !board[row + DIR[direction][0]][col + DIR[direction][1]].getType().equals("⭕")) {
-                temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));// לתקן
+                temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));
                 amount = flip(direction, row + DIR[direction][0], col + DIR[direction][1], count + 1,temp);
             }
         }
@@ -163,9 +162,41 @@ public class GameLogic implements PlayableLogic {
     @Override
     public boolean isGameFinished()
     {
+        int discPlayerBlue = 0;
+        int discPlayerRed = 0;
+        if(ValidMoves().isEmpty())
+        {
+            for(int i = 0;i < BOARD_SIZE;i++)
+            {
+                for (int j = 0;j< BOARD_SIZE;j++)
+                {
+                    if(board[i][j]!=null)
+                    {
+                        if(board[i][j].getOwner().equals(playerBlue))
+                            discPlayerBlue++;
+                        else
+                            discPlayerRed++;
+                    }
+                }
+            }
+            System.out.println(discPlayerBlue +" " + discPlayerRed);
+            if(discPlayerBlue + discPlayerRed == BOARD_SIZE*BOARD_SIZE)
+            {
+                if(discPlayerBlue>discPlayerRed)
+                    playerBlue.addWin();
+                else if (discPlayerRed>discPlayerBlue)
+                    playerRed.addWin();
+            }
+            else {
+                if (lastPlayer)
+                    playerRed.addWin();
+                else
+                    playerBlue.addWin();
+            }
+            return true;
+        }
         return false;
     }
-
     @Override
     public void reset() {
         board = new Disc[BOARD_SIZE][BOARD_SIZE];
@@ -200,8 +231,6 @@ public class GameLogic implements PlayableLogic {
             }
             else System.out.println("Undoing last move:\n" + "\tNo previous move available to undo.");
         }
-
-
     }
 }
 
