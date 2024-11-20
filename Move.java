@@ -1,13 +1,19 @@
 import java.sql.Array;
 
 public class Move {
-    private int[][] board = new int[8][8];
+    Disc disc;
+    Position position;
 
+    public Move(Position position, Disc disc)
+    {
+        this.position = position;
+        this.disc = disc;
+    }
     public Position position() {
-        return null;
+        return  position;
     }
 
     public Disc disc() {
-        return null;
+        return disc;
     }
 }

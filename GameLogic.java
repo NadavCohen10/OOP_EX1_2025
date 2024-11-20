@@ -7,16 +7,19 @@ public class GameLogic implements PlayableLogic {
     private Disc [][] board = new Disc[BOARD_SIZE][BOARD_SIZE];
     private Player playerBlue;
     private Player playerRed;
-    private Player currentPlayer;
+    protected Player currentPlayer;
     private final int[][] DIR = {{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1}};
     private boolean lastPlayer = true;
     private boolean flipper = false ;
     private  Stack<Position> undoMoves = new Stack<>();
     private  Stack<Integer> undoSteps = new Stack<>();
+    private boolean[][] bombMap = new boolean[BOARD_SIZE][BOARD_SIZE];
+    private boolean[][] regDiscMap = new boolean[BOARD_SIZE][BOARD_SIZE];
     public GameLogic()
     {
         board = new Disc[BOARD_SIZE][BOARD_SIZE];
     }
+
 
     @Override
     public boolean locate_disc(Position a, Disc disc)
@@ -44,18 +47,10 @@ public class GameLogic implements PlayableLogic {
             System.out.println("Player placed a " + board[a.row()][a.col()].getType() + " in (" + a.row() + ", " + a.col() + ")");
            for(int i = 0; i < undoSteps.peek();i++)
            {
-             //  if(i ==0)
-                 //  System.out.println("Player placed a " + board[undoMoves.get(i).row()][undoMoves.get(i).col()].getType()
-                     //      + " in (" + undoMoves.get(undoMoves.size()-i-1).row() + ", " + undoMoves.get(i).col() + ")");
-
                System.out.println("Player flipped the " +
                        board[undoMoves.get(undoMoves.size()-i-2).row()][undoMoves.get(undoMoves.size()-i-2).col()].getType() +
                        " in (" + undoMoves.get(undoMoves.size()-i-2).row() +
                        ", " + undoMoves.get(undoMoves.size()-i-2).col() + ")");
-
-
-               //System.out.println("Player flipped the " + board[undoMoves.get(i).row()][undoMoves.get(i).col()].getType()
-              //         + " in (" + undoMoves.get(undoMoves.size()-i-1).row() + ", " + undoMoves.get(i).col() + ")");
            }
             System.out.println();
 
@@ -118,6 +113,8 @@ public class GameLogic implements PlayableLogic {
                     board[row + DIR[direction][0]][col + DIR[direction][1]].getOwner().isPlayerOne != lastPlayer &&
                     !board[row + DIR[direction][0]][col + DIR[direction][1]].getType().equals("⭕"))
             {
+              //  if(board[row + DIR[direction][0]][col + DIR[direction][1]] instanceof BombDisc)
+                 //   isBomb(row + DIR[direction][0],col + DIR[direction][1]);
                 temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));
                 amount = flip(direction, row + DIR[direction][0], col + DIR[direction][1], count + 1,temp);
             }
@@ -197,19 +194,15 @@ public class GameLogic implements PlayableLogic {
                     }
                 }
             }
-            System.out.println(discPlayerBlue +" " + discPlayerRed);
-            if(discPlayerBlue + discPlayerRed == BOARD_SIZE*BOARD_SIZE)
-            {
-                if(discPlayerBlue>discPlayerRed)
-                    playerBlue.addWin();
-                else if (discPlayerRed>discPlayerBlue)
-                    playerRed.addWin();
+            if (discPlayerBlue > discPlayerRed) {
+                playerBlue.addWin();
+                System.out.println("Player 1 wins with "+ discPlayerBlue+" discs! Player 2\n" +
+                            "had "+ discPlayerRed + " discs.");
             }
-            else {
-                if (lastPlayer)
-                    playerRed.addWin();
-                else
-                    playerBlue.addWin();
+            else if (discPlayerRed>discPlayerBlue) {
+                playerRed.addWin();
+                System.out.println("Player 2 wins with " + discPlayerRed + " discs! Player 1\n" +
+                            "had " + discPlayerBlue + " discs.");
             }
             return true;
         }
@@ -250,4 +243,43 @@ public class GameLogic implements PlayableLogic {
             else System.out.println("Undoing last move:\n" + "\tNo previous move available to undo.");
         }
     }
+
+//    private int isBomb(int row, int col)
+//    {
+//     //   boolean[][] bombMap = new boolean[BOARD_SIZE][BOARD_SIZE];
+//     //   boolean[][] regDiscMap = new boolean[BOARD_SIZE][BOARD_SIZE];
+//        bombMap[row][col]= true;
+//        int count = 0;
+//        for(int i =0 ; i<8;i++)
+//        {
+//            count = count + flipBomb(i,row,col,bombMap,regDiscMap);
+//        }
+//        return 0;
+//    }
+//    private int flipBomb(int direction, int row, int col, boolean [][] bombMap,boolean[][] regDiscMap)
+//    {
+//        int amount = 0;
+//        if(0 <= (row + DIR[direction][0]) && (row + DIR[direction][0]) < 8 && 0 <= (col + DIR[direction][1]) && (col + DIR[direction][1]) < 8) {
+//            if (board[row + DIR[direction][0]][col + DIR[direction][1]] != null) {
+//                if (board[row + DIR[direction][0]][col + DIR[direction][1]] instanceof BombDisc
+//                        && !bombMap[row + DIR[direction][0]][col + DIR[direction][1]])
+//                {
+//                    bombMap[row + DIR[direction][0]][col + DIR[direction][1]] = true;
+//                    regDiscMap[row + DIR[direction][0]][col + DIR[direction][1]] = true;
+//                    //amount = flipBomb(direction, row + DIR[direction][0], col + DIR[direction][1], bombMap,regDiscMap);
+//                    amount = isBomb(row + DIR[direction][0],col + DIR[direction][1]);
+//                }
+//            }
+//        }
+//        else {
+//            return 0;
+//        }
+//
+//        if(board[row + DIR[direction][0]][col + DIR[direction][1]] != null)
+//            if(board[row + DIR[direction][0]][col + DIR[direction][1]].getOwner().isPlayerOne != lastPlayer)
+//                regDiscMap[row + DIR[direction][0]][col + DIR[direction][1]] = true;
+//
+//        return 0;
+//
+//    }
 }
