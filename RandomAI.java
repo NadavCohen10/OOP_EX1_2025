@@ -7,8 +7,7 @@ public class RandomAI extends AIPlayer {
     @Override
     public Move makeMove(PlayableLogic gameStatus) {
         Player plyrAIrdm;
-        Move randomMove;
-        Position randomPosition = new Position();
+        Position randomPosition;
         Disc randomDisc;
         if(isPlayerOne)
             plyrAIrdm = gameStatus.getFirstPlayer();

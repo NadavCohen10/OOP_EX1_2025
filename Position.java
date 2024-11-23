@@ -22,4 +22,12 @@ public class Position {
     }
 
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        Position a = (Position) obj;
+        return columns == a.col() && rows == a.rows;
+
+    }
+
 }
