@@ -6,23 +6,23 @@ public class RandomAI extends AIPlayer {
 
     @Override
     public Move makeMove(PlayableLogic gameStatus) {
-        Player plyrAIrdm;
+        Player randomAI;
         Position randomPosition;
         Disc randomDisc;
         if(isPlayerOne)
-            plyrAIrdm = gameStatus.getFirstPlayer();
+            randomAI = gameStatus.getFirstPlayer();
         else
-            plyrAIrdm = gameStatus.getSecondPlayer();
+            randomAI = gameStatus.getSecondPlayer();
 
         if(!gameStatus.ValidMoves().isEmpty())
         {
             randomPosition =  gameStatus.ValidMoves().get((int)(Math.random() * gameStatus.ValidMoves().size()));
             int rndmDisc = (int) (Math.random() * 3);
-            if(rndmDisc == 0 && plyrAIrdm.getNumber_of_bombs()>0)
-                randomDisc = new BombDisc(plyrAIrdm);
-            else if (rndmDisc == 1 && plyrAIrdm.getNumber_of_unflippedable()>0)
-                randomDisc = new UnflippableDisc(plyrAIrdm);
-            else randomDisc = new SimpleDisc(plyrAIrdm);
+            if(rndmDisc == 0 && randomAI.getNumber_of_bombs()>0)
+                randomDisc = new BombDisc(randomAI);
+            else if (rndmDisc == 1 && randomAI.getNumber_of_unflippedable()>0)
+                randomDisc = new UnflippableDisc(randomAI);
+            else randomDisc = new SimpleDisc(randomAI);
 
             return new Move(randomPosition,randomDisc);
             }

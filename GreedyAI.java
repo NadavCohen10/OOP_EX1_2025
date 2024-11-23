@@ -18,6 +18,11 @@ public class GreedyAI extends AIPlayer {
         if(!gameStatus.ValidMoves().isEmpty())
         {
             List<Position> AImoves = gameStatus.ValidMoves();
+            System.out.println(AImoves);
+            AImoves.sort(new PositionCompare(gameStatus));
+            System.out.println(AImoves);
+            AIDisc = new SimpleDisc(greedyAI);
+            return new Move(AImoves.getLast(),AIDisc);
         }
 
 return null;

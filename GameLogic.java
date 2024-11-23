@@ -143,7 +143,7 @@ public class GameLogic implements PlayableLogic {
                     else count--;
 
 
-                amount = flip(direction, row + DIR[direction][0], col + DIR[direction][1], count + 1,temp) ;//+ isBomb(row + DIR[direction][0],col + DIR[direction][1],direction);
+                amount = flip(direction, row + DIR[direction][0], col + DIR[direction][1], count + 1,temp) ;
             }
         }
         else
