@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class GameLogic implements PlayableLogic {
     final private int BOARD_SIZE = 8;
-    private Disc [][] board = new Disc[BOARD_SIZE][BOARD_SIZE];
+    private Disc [][] board ;
     private Player playerBlue;
     private Player playerRed;
     private Player currentPlayer;
@@ -13,8 +13,7 @@ public class GameLogic implements PlayableLogic {
     private boolean flipper = false ;
     private  Stack<Position> undoMoves = new Stack<>();
     private  Stack<Integer> undoSteps = new Stack<>();
-    private boolean[][] bombMap = new boolean[BOARD_SIZE][BOARD_SIZE];
-    private boolean[][] regDiscMap = new boolean[BOARD_SIZE][BOARD_SIZE];
+    private Stack<Position> myTurn = new Stack<>();
     public GameLogic()
     {
         board = new Disc[BOARD_SIZE][BOARD_SIZE];
@@ -44,16 +43,23 @@ public class GameLogic implements PlayableLogic {
             flipper = !flipper;
             undoSteps.add(countFlips(a));
             undoMoves.add(a);
-            System.out.println("Player placed a " + board[a.row()][a.col()].getType() + " in (" + a.row() + ", " + a.col() + ")");
-           for(int i = 0; i < undoSteps.peek();i++)
-           {
-               System.out.println("Player flipped the " +
+            if(isFirstPlayerTurn())
+                System.out.print("Player 1 ");
+            else
+                System.out.print("Player 2 ");
+            System.out.println("placed a " + board[a.row()][a.col()].getType() + " in (" + a.row() + ", " + a.col() + ")");
+            for(int i = 0; i < undoSteps.peek();i++)
+            {
+                if(isFirstPlayerTurn())
+                    System.out.print("Player 1 ");
+                else
+                    System.out.print("Player 2 ");
+                System.out.println("flipped the " +
                        board[undoMoves.get(undoMoves.size()-i-2).row()][undoMoves.get(undoMoves.size()-i-2).col()].getType() +
                        " in (" + undoMoves.get(undoMoves.size()-i-2).row() +
                        ", " + undoMoves.get(undoMoves.size()-i-2).col() + ")");
-           }
-            System.out.println();
-
+            }
+            System.out.print("\n");
             flipper = !flipper;
             lastPlayer = !lastPlayer;
             return true;
@@ -92,14 +98,22 @@ public class GameLogic implements PlayableLogic {
         for(int i = 0; i<8;i++)
         {
             count = count + flip(i,a.row(),a.col(),0,tempFlips);
-            if(flipper) {
-                while (!tempFlips.empty()) {
-                    board[tempFlips.peek().row()][tempFlips.peek().col()].setOwner(currentPlayer);
-                    undoMoves.add(tempFlips.pop());
-                }
-            }
+            myTurn.addAll(tempFlips);
+//            if(flipper) {
+//                while (!tempFlips.empty()) {
+//                    board[tempFlips.peek().row()][tempFlips.peek().col()].setOwner(currentPlayer);
+//                    undoMoves.add(tempFlips.pop());
+//                }
+//            }
             tempFlips.clear();
         }
+        if(flipper) {
+            while (!myTurn.empty()) {
+                board[myTurn.peek().row()][myTurn.peek().col()].setOwner(currentPlayer);
+                undoMoves.add(myTurn.pop());
+            }
+        }
+        myTurn.clear();
         return count;
     }
 
@@ -107,9 +121,8 @@ public class GameLogic implements PlayableLogic {
 
     private  int flip(int direction, int row, int col, int count, Stack<Position> temp)
     {
-
-        if(row ==0 && col ==2 && direction == 0)
-            System.out.println("hh");
+       // if(row==2 && col==7)
+           // System.out.println("hh");
         int amount = 0;
         if(0 <= (row + DIR[direction][0]) && (row + DIR[direction][0]) < 8 && 0 <= (col + DIR[direction][1]) && (col + DIR[direction][1]) < 8) {
             if (board[row + DIR[direction][0]][col + DIR[direction][1]] != null &&
@@ -139,7 +152,8 @@ public class GameLogic implements PlayableLogic {
                 }
                 else
                     if(!temp.contains(new  Position(row + DIR[direction][0], col + DIR[direction][1])))
-                        temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));
+                        if(!myTurn.contains(new  Position(row + DIR[direction][0], col + DIR[direction][1])))
+                            temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));
                     else count--;
 
 
@@ -183,12 +197,15 @@ public class GameLogic implements PlayableLogic {
                     0 <= (col + DIR[i][1]) && (col + DIR[i][1]) < 8)
                 if(board[row  + DIR[i][0]][col  + DIR[i][1]]!=null && !(board[row  + DIR[i][0]][col  + DIR[i][1]] instanceof UnflippableDisc))
                     if(board[row  + DIR[i][0]][col  + DIR[i][1]].getOwner().isPlayerOne!=lastPlayer) {
-                        if(!temp.contains(new Position(row +  + DIR[i][0], col  + DIR[i][1]))) {
-                            temp.add(new Position(row  + DIR[i][0], col  + DIR[i][1]));
-                            count++;
+                        if(!temp.contains(new Position(row +  DIR[i][0], col  + DIR[i][1]))) {
+                            if (!myTurn.contains(new Position(row + DIR[i][0], col + DIR[i][1])))
+                            {
+                                temp.add(new Position(row + DIR[i][0], col + DIR[i][1]));
+                                count++;
 
-                            if (board[row  + DIR[i][0]][col  + DIR[i][1]] instanceof BombDisc)
-                                count =  isBomb(row  + DIR[i][0], col  + DIR[i][1],temp, count);
+                                if (board[row + DIR[i][0]][col + DIR[i][1]] instanceof BombDisc)
+                                    count = isBomb(row + DIR[i][0], col + DIR[i][1], temp, count);
+                            }
                         }
                     }
         }
@@ -296,13 +313,13 @@ public class GameLogic implements PlayableLogic {
             }
             if (discPlayerBlue > discPlayerRed) {
                 playerBlue.addWin();
-                System.out.println("Player 1 wins with "+ discPlayerBlue+" discs! Player 2\n" +
-                            "had "+ discPlayerRed + " discs.");
+                System.out.println("Player 1 wins with "+ discPlayerBlue+" discs! Player 2 had " +
+                        discPlayerRed + " discs.");
             }
-            else if (discPlayerRed>discPlayerBlue) {
+            else if (discPlayerRed > discPlayerBlue) {
                 playerRed.addWin();
-                System.out.println("Player 2 wins with " + discPlayerRed + " discs! Player 1\n" +
-                            "had " + discPlayerBlue + " discs.");
+                System.out.println("Player 2 wins with " + discPlayerRed + " discs! Player 1 had " +
+                        discPlayerBlue + " discs.");
             }
             return true;
         }
@@ -326,17 +343,28 @@ public class GameLogic implements PlayableLogic {
     public void undoLastMove() {
         if(playerBlue.isHuman()&&playerRed.isHuman()) {
             if (!undoMoves.empty() && !undoSteps.empty()) {
+
+                System.out.println("Undoing last move:");
                 for (int i = 0; i <= undoSteps.peek(); i++) {
-                    if(board[undoMoves.peek().row()][undoMoves.peek().col()] instanceof UnflippableDisc)
+                    if (board[undoMoves.peek().row()][undoMoves.peek().col()] instanceof UnflippableDisc)
                         board[undoMoves.peek().row()][undoMoves.peek().col()].getOwner().increase_unflippedable();
                     else if (board[undoMoves.peek().row()][undoMoves.peek().col()] instanceof BombDisc)
                         board[undoMoves.peek().row()][undoMoves.peek().col()].getOwner().increase_bomb();
-                    if (i == 0)
+                    if (i == 0) {
+                        System.out.println("\tUndo: removing " +
+                                board[undoMoves.peek().row()][undoMoves.peek().col()].getType()
+                                + " from (" + undoMoves.peek().row() + ", " + undoMoves.peek().col() + ") ");
                         board[undoMoves.peek().row()][undoMoves.peek().col()] = null;
-                    else
+                    }
+                    else {
+                        System.out.println("\tUndo: flipping back " +
+                                board[undoMoves.peek().row()][undoMoves.peek().col()].getType()
+                                + " in (" + undoMoves.peek().row() + ", " + undoMoves.peek().col() + ") ");
                         board[undoMoves.peek().row()][undoMoves.peek().col()].setOwner(currentPlayer);
+                    }
                     undoMoves.pop();
                 }
+                System.out.print("\n");
                 lastPlayer = !lastPlayer;
                 undoSteps.pop();
             }
