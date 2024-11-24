@@ -95,7 +95,7 @@ public class GameLogic implements PlayableLogic {
     {
         int count = 0;
         Stack<Position> tempFlips = new Stack<>();
-        for(int i = 0; i<8;i++)
+        for(int i = 0; i < BOARD_SIZE; i++)
         {
             count = count + flip(i,a.row(),a.col(),0,tempFlips);
             myTurn.addAll(tempFlips);
@@ -107,8 +107,10 @@ public class GameLogic implements PlayableLogic {
 //            }
             tempFlips.clear();
         }
-        if(flipper) {
-            while (!myTurn.empty()) {
+        if(flipper)
+        {
+            while (!myTurn.empty())
+            {
                 board[myTurn.peek().row()][myTurn.peek().col()].setOwner(currentPlayer);
                 undoMoves.add(myTurn.pop());
             }
@@ -121,43 +123,37 @@ public class GameLogic implements PlayableLogic {
 
     private  int flip(int direction, int row, int col, int count, Stack<Position> temp)
     {
-       // if(row==2 && col==7)
-           // System.out.println("hh");
+        if(row==2 && col==7)
+            System.out.println("hh");
         int amount = 0;
-        if(0 <= (row + DIR[direction][0]) && (row + DIR[direction][0]) < 8 && 0 <= (col + DIR[direction][1]) && (col + DIR[direction][1]) < 8) {
-            if (board[row + DIR[direction][0]][col + DIR[direction][1]] != null &&
-                    board[row + DIR[direction][0]][col + DIR[direction][1]].getOwner().isPlayerOne != lastPlayer)
+        int rowAndDir = row + DIR[direction][0];
+        int colAndDir = col + DIR[direction][1];
+        if(0 <= (rowAndDir) && (rowAndDir) < BOARD_SIZE && 0 <= (colAndDir) && (colAndDir) < BOARD_SIZE)
+        {
+            Disc d = board[rowAndDir][colAndDir];
+            Position p =  new Position(rowAndDir,colAndDir);
+            if (d != null && d.getOwner().isPlayerOne != lastPlayer)
             {
-                //if(board[row + DIR[direction][0]][col + DIR[direction][1]] instanceof BombDisc)
-                //    System.out.println("he");
-                //isBomb(row + DIR[direction][0],col + DIR[direction][1]);
-                if(board[row + DIR[direction][0]][col + DIR[direction][1]].getType().equals("UD"))
-                    count --;
-                else if(board[row + DIR[direction][0]][col + DIR[direction][1]].getType().equals("DB"))
+                if (d.getType().equals("UD"))
+                    count--;
+                else if (d.getType().equals("DB"))
                 {
-                    temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));
-                   count = isBomb(row + DIR[direction][0],col + DIR[direction][1],temp, count);
-//                    for( int i = 0; i<8;i++)
-//                    {
-//                        if(0 <= (row + DIR[direction][0] + DIR[i][0]) && (row + DIR[direction][0] + DIR[i][0]) < 8 &&
-//                                0 <= (col + DIR[direction][1]+ DIR[i][1]) && (col +DIR[direction][1]+ DIR[i][1]) < 8)
-//                            if(board[row + DIR[direction][0] + DIR[i][0]][col + DIR[direction][1] + DIR[i][1]]!=null && !(board[row + DIR[direction][0] + DIR[i][0]][col +DIR[direction][1] + DIR[i][1]] instanceof UnflippableDisc))
-//                                if(board[row + DIR[direction][0] + DIR[i][0]][col +DIR[direction][1] + DIR[i][1]].getOwner().isPlayerOne!=lastPlayer) {
-//                                    if(!temp.contains(new Position(row + DIR[direction][0] + DIR[i][0], col +DIR[direction][1] + DIR[i][1]))) {
-//                                        temp.add(new Position(row + DIR[direction][0] + DIR[i][0], col + DIR[direction][1] + DIR[i][1]));
-//                                        count++;
-//                                    }
-//                                }
-//                    }
+                    if (!temp.contains(p))
+                    {
+                        if (!myTurn.contains(p))
+                        {
+                            temp.add(p);
+                            count = isBomb(rowAndDir, colAndDir, temp, count);
+                        }
+                    }
                 }
                 else
-                    if(!temp.contains(new  Position(row + DIR[direction][0], col + DIR[direction][1])))
-                        if(!myTurn.contains(new  Position(row + DIR[direction][0], col + DIR[direction][1])))
-                            temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));
-                    else count--;
-
-
-                amount = flip(direction, row + DIR[direction][0], col + DIR[direction][1], count + 1,temp) ;
+                {
+                    if (!temp.contains(p) && !myTurn.contains(p))
+                            temp.add(p);
+                     else count--;
+                }
+                amount = flip(direction, rowAndDir, colAndDir, count + 1,temp) ;
             }
         }
         else
@@ -165,7 +161,7 @@ public class GameLogic implements PlayableLogic {
             temp.clear();
             return 0;
         }
-        if (board[row + DIR[direction][0]][col + DIR[direction][1]] == null) {
+        if (board[rowAndDir][colAndDir] == null) {
             if(!temp.empty()) {
                 if (board[row][col].getOwner().isPlayerOne == lastPlayer)
                     temp.pop();
@@ -176,7 +172,7 @@ public class GameLogic implements PlayableLogic {
             }
             return 0;
         }
-        else if (board[row + DIR[direction][0]][col + DIR[direction][1]].getOwner().isPlayerOne == lastPlayer) {
+        else if (board[rowAndDir][colAndDir].getOwner().isPlayerOne == lastPlayer) {
             if(lastPlayer)
                 currentPlayer = playerBlue;
             else
@@ -190,24 +186,31 @@ public class GameLogic implements PlayableLogic {
 
     private int isBomb(int row, int col, Stack<Position> temp, int count)
     {
+        int rowAndDir;
+        int colAndDir;
       //  temp.add(new Position(row + DIR[direction][0], col + DIR[direction][1]));
-        for( int i = 0; i<8;i++)
+        for( int i = 0; i < BOARD_SIZE; i++)
         {
-            if(0 <= (row + DIR[i][0]) && (row + DIR[i][0]) < 8 &&
-                    0 <= (col + DIR[i][1]) && (col + DIR[i][1]) < 8)
-                if(board[row  + DIR[i][0]][col  + DIR[i][1]]!=null && !(board[row  + DIR[i][0]][col  + DIR[i][1]] instanceof UnflippableDisc))
-                    if(board[row  + DIR[i][0]][col  + DIR[i][1]].getOwner().isPlayerOne!=lastPlayer) {
-                        if(!temp.contains(new Position(row +  DIR[i][0], col  + DIR[i][1]))) {
-                            if (!myTurn.contains(new Position(row + DIR[i][0], col + DIR[i][1])))
-                            {
-                                temp.add(new Position(row + DIR[i][0], col + DIR[i][1]));
+            rowAndDir = row + DIR[i][0];
+            colAndDir = col + DIR[i][1];
+            if (0 <= (rowAndDir) && (rowAndDir) < 8 && 0 <= (colAndDir) && (colAndDir) < 8)
+            {
+                Disc d = board[row + DIR[i][0]][col + DIR[i][1]];
+                Position p = new Position(row + DIR[i][0], col + DIR[i][1]);
+                if (d != null && !(d instanceof UnflippableDisc)) {
+                    if (d.getOwner().isPlayerOne != lastPlayer) {
+                        if (!temp.contains(p)) {
+                            if (!myTurn.contains(p)) {
+                                temp.add(p);
                                 count++;
-
-                                if (board[row + DIR[i][0]][col + DIR[i][1]] instanceof BombDisc)
-                                    count = isBomb(row + DIR[i][0], col + DIR[i][1], temp, count);
+                                if (d instanceof BombDisc)
+                                    count = isBomb(rowAndDir, colAndDir, temp, count);
                             }
                         }
                     }
+                }
+            }
+
         }
         return count;
     }
