@@ -204,9 +204,9 @@ public class GameLogic implements PlayableLogic {
 
             // If the disc belongs to the opponent, continue processing
             if (d != null && d.getOwner().isPlayerOne != lastPlayer) {
-                if (d.getType().equals("UD"))
+                if (d.getType().equals("⭕"))
                     count--; // Unflippable discs reduce the count since they cannot be flipped
-                else if (d.getType().equals("DB")) {
+                else if (d.getType().equals("💣")) {
                     // Handle bomb discs and their chain reaction
                     if (!temp.contains(p) && !posCount.contains(p)) {
 
