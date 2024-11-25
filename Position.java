@@ -7,18 +7,17 @@ public class Position {
 
     /**
      * Default constructor for Position.
-     *
+     * <p>
      * Initializes a position with default values for rows and columns.
      */
-    public Position()
-    {
+    public Position() {
 
     }
 
     /**
      * Constructs a Position object with specified row and column values.
      *
-     * @param rows the row index
+     * @param rows    the row index
      * @param columns the column index
      */
     public Position(int rows, int columns) {
@@ -31,8 +30,7 @@ public class Position {
      *
      * @return the eow index
      */
-    public int row()
-    {
+    public int row() {
         return rows;
     }
 
@@ -41,8 +39,7 @@ public class Position {
      *
      * @return the column index
      */
-    public int col()
-    {
+    public int col() {
         return columns;
     }
 
@@ -54,8 +51,7 @@ public class Position {
      * @return true if the object is a Position with the same row and column values; false otherwise
      */
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         Position a = (Position) obj;
         return columns == a.col() && rows == a.rows;
 

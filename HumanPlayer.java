@@ -1,6 +1,6 @@
 /**
  * Represents a human player in a game.
- *
+ * <p>
  * This class extends the Player class and overrides relevant methods
  * to indicate that this player is human.
  */

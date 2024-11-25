@@ -1,6 +1,6 @@
 /**
  * Represents a Simple Disc in the game.
- *
+ * <p>
  * A Simple Disc is a basic type of disc that has an owner and can have its owner changed.
  */
 public class SimpleDisc implements Disc {

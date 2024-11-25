@@ -1,9 +1,9 @@
 /**
  * Represents a Bomb Disc in the game.
- *
+ * <p>
  * A Bomb Disc is a type of disc with unique behavior.
  */
-public class BombDisc implements Disc{
+public class BombDisc implements Disc {
 
     // The player who currently owns this Bomb Disc
     private Player currentPlayer;
@@ -13,8 +13,7 @@ public class BombDisc implements Disc{
      *
      * @param currentPlayer the player who owns this Bomb Disc
      */
-    public BombDisc(Player currentPlayer)
-    {
+    public BombDisc(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -24,8 +23,7 @@ public class BombDisc implements Disc{
      * @return the player who currently owns this Bomb Disc
      */
     @Override
-    public Player getOwner()
-    {
+    public Player getOwner() {
         return currentPlayer;
     }
 
@@ -36,7 +34,8 @@ public class BombDisc implements Disc{
      */
     @Override
     public void setOwner(Player player) {
-        currentPlayer = player;;
+        currentPlayer = player;
+        ;
 
     }
 
@@ -46,9 +45,7 @@ public class BombDisc implements Disc{
      * @return the type string representing this Bomb Disc ("💣")
      */
     @Override
-    public String getType()
-    {
-        return "DB";
-        //return "💣";
+    public String getType() {
+        return "💣";
     }
 }

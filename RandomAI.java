@@ -1,6 +1,6 @@
 /**
  * Represents a Random AI player in the game.
- *
+ * <p>
  * The Random AI selects its moves and discs randomly.
  * This class extends the AIPlayer class and overrides relevant methods
  */
@@ -32,32 +32,31 @@ public class RandomAI extends AIPlayer {
         Disc randomDisc;
 
         // Determine whether the RandomAI is Player One or Player Two
-        if(isPlayerOne)
+        if (isPlayerOne)
             randomAI = gameStatus.getFirstPlayer();
         else
             randomAI = gameStatus.getSecondPlayer();
 
         // Check if there are valid moves available
-        if(!gameStatus.ValidMoves().isEmpty())
-        {
+        if (!gameStatus.ValidMoves().isEmpty()) {
             // Select a random position from the list of valid moves
-            randomPosition =  gameStatus.ValidMoves().get((int)(Math.random() * gameStatus.ValidMoves().size()));
+            randomPosition = gameStatus.ValidMoves().get((int) (Math.random() * gameStatus.ValidMoves().size()));
 
             // Randomly decide which type of disc to play
             int rndmDisc = (int) (Math.random() * 3); // Random integer between 0 and 2
 
             // Choose the disc based on the random value and availability
-            if(rndmDisc == 0 && randomAI.getNumber_of_bombs()>0)
+            if (rndmDisc == 0 && randomAI.getNumber_of_bombs() > 0)
                 randomDisc = new BombDisc(randomAI);
-            else if (rndmDisc == 1 && randomAI.getNumber_of_unflippedable()>0)
+            else if (rndmDisc == 1 && randomAI.getNumber_of_unflippedable() > 0)
                 randomDisc = new UnflippableDisc(randomAI);
             else randomDisc = new SimpleDisc(randomAI);
 
             // Return the move with the chosen position and disc
-            return new Move(randomPosition,randomDisc);
+            return new Move(randomPosition, randomDisc);
         }
         // Return null if no valid moves are available
         return null;
-        }
     }
+}
 

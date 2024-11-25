@@ -1,10 +1,10 @@
 /**
  * Represents an Unflippable Disc in the game.
- *
+ * <p>
  * An Unflippable Disc is a type of disc that cannot have its owner changed
  * once it is set, which is represented by the final field for the current player.
  */
-public class UnflippableDisc implements Disc{
+public class UnflippableDisc implements Disc {
 
 
     // The player who currently owns this Unflippable Disc
@@ -38,15 +38,14 @@ public class UnflippableDisc implements Disc{
     public void setOwner(Player player) {
         return;
     }
+
     /**
      * Retrieves the type of this Unflippable Disc.
      *
      * @return the type string representing this Unflippable Disc ("⭕")
      */
     @Override
-    public String getType()
-    {
-        return "UD" ;
-      //  return "⭕" ;
+    public String getType() {
+        return "⭕";
     }
 }

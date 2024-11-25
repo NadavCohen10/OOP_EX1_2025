@@ -40,6 +40,7 @@ public class Main {
         });
 
     }
+
     private static Player[] initializePlayers(JFrame parent) {
         PlayerSelectionDialog dialog = new PlayerSelectionDialog(parent);
         dialog.setVisible(true);
@@ -52,7 +53,6 @@ public class Main {
 
         return new Player[]{firstPlayer, secondPlayer};
     }
-
 
 
     public static class PlayerSelectionDialog extends JDialog {

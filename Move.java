@@ -11,20 +11,20 @@ public class Move {
      * Constructs a new Move object with a given position and disc.
      *
      * @param position the position where the disc is placed
-     * @param disc the disc being placed
+     * @param disc     the disc being placed
      */
-    public Move(Position position, Disc disc)
-    {
+    public Move(Position position, Disc disc) {
         this.position = position;
         this.disc = disc;
     }
+
     /**
      * Returns the position of the move.
      *
      * @return the position where the disc is placed
      */
     public Position position() {
-        return  position;
+        return position;
     }
 
     /**
