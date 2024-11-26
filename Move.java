@@ -1,5 +1,3 @@
-//import java.sql.Array;
-
 /**
  * Represents a move in a game involving a disc being placed at a specific position.
  */
