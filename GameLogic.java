@@ -408,10 +408,9 @@ public class GameLogic implements PlayableLogic {
     public void undoLastMove() {
         // Only allow undo for human players
         if (playerBlue.isHuman() && playerRed.isHuman()) {
+            System.out.println("Undoing last move:");
             // Ensure there are moves to undo
             if (!undoMoves.empty() && !undoSteps.empty()) {
-
-                System.out.println("Undoing last move:");
                 for (int i = 0; i <= undoSteps.peek(); i++) {
                     Position undoPos = undoMoves.peek(); // Get the last position from the undo stack
                     Disc undoDisc = board[undoPos.row()][undoPos.col()]; // Get the last disk from the undo stack
@@ -442,7 +441,7 @@ public class GameLogic implements PlayableLogic {
 
                 lastPlayer = !lastPlayer; // Switch the turn back to the other player
                 undoSteps.pop(); // Remove the last undo step count
-            } else System.out.println("Undoing last move:\n" + "\tNo previous move available to undo.");
+            } else System.out.println("\tNo previous move available to undo.");
         }
     }
 }
